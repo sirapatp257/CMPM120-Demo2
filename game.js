@@ -103,6 +103,8 @@ class Intro extends Phaser.Scene {
         this.load.image("halo", "images/LogoHalo.png");
         this.load.image("studioSign", "images/DivineGemstoneLogoText.png");
         this.load.audio("hum", "sounds/hum-edited.wav");
+        this.load.audio("boom", "sounds/Explosion6.wav");
+        this.load.audio("bgm", "sounds/LilacCity.wav");
     }
 
     create() {
@@ -174,7 +176,7 @@ class Splash extends Phaser.Scene {
            ease: 'Linear',
         }).setCallback("onComplete", () => {
             this.time.delayedCall(800, () => this.cameras.main.fadeOut(1000, 0, 0, 0, (c, t) => {
-                if (t >= 1) this.scene.start('title');
+                if (t >= 1) this.scene.start('exposition');
             }))
         });
     }
@@ -219,6 +221,145 @@ class Title extends Phaser.Scene {
     }
 }
 
+class Exposition extends Phaser.Scene {
+    constructor() {
+        super('exposition');
+    }
+
+    create() {
+        let textDelay = 1800;
+
+        let sfx = this.sound.add("boom", {loop: false});
+        let bgm = this.sound.add("bgm", {loop: true});
+
+        let tweenList;
+        let tweensPlayed = 0;
+
+        let text1 = this.add.text(960, 200, "It was raining, as it did most days in Freddy's neighborhood.").setFontFamily('Serif')
+            .setFontSize(40)
+            .setAlign('center')
+            .setOrigin(0.5, 0);
+
+        this.tweens.add({
+            targets: text1,
+            alpha: {start: 0, to: 1},
+            duration: 600,
+            paused: true
+        }).setCallback("onComplete", () => this.time.delayedCall(textDelay, () => this.playTween(tweenList, tweensPlayed++)));
+
+        let text2 = this.add.text(960, 300, "However, unlike most of the previous times, Freddy hears a loud boom going off just outside his house. \“Probably the transformer exploding again,\” Freddy thought.")
+            .setFontFamily('Serif')
+            .setFontSize(40)
+            .setAlign('center')
+            .setOrigin(0.5, 0)
+            .setWordWrapWidth(1000);
+        
+        this.tweens.add({
+            targets: text2,
+            alpha: {start: 0, to: 1},
+            duration: 600,
+            paused: true
+        }).setCallback("onStart", () => this.time.delayedCall(500, () => {
+            sfx.play();
+            this.time.delayedCall(textDelay - 500, () => this.playTween(tweenList, tweensPlayed++));
+        }));
+
+        let text3 = this.add.text(960, 480, "The house goes dark. Candles were then lit around the house to light the place up.")
+            .setFontFamily('Serif')
+            .setFontSize(40)
+            .setAlign('center')
+            .setOrigin(0.5, 0)
+            .setWordWrapWidth(1000);
+        
+        this.tweens.add({
+            targets: text3,
+            alpha: {start: 0, to: 1},
+            duration: 600,
+            paused: true
+        }).setCallback("onComplete", () => this.time.delayedCall(textDelay, () => this.playTween(tweenList, tweensPlayed++)));
+
+        let text4 = this.add.text(960, 620, "Freddy\’s little brother Frankie suggested that the Lilac City theme song be put on speaker to match the creepy atmosphere.")
+            .setFontFamily('Serif')
+            .setFontSize(40)
+            .setAlign('center')
+            .setOrigin(0.5, 0)
+            .setWordWrapWidth(1000);
+        
+        this.tweens.add({
+            targets: text4,
+            alpha: {start: 0, to: 1},
+            duration: 600,
+            paused: true
+        }).setCallback("onStart", () => this.time.delayedCall(800, () => {
+            bgm.play();
+            this.time.delayedCall(textDelay - 800, () => this.playTween(tweenList, tweensPlayed++));
+        }));
+
+        this.tweens.add({
+            targets: [text1, text2, text3, text4],
+            alpha: {from: 1, to: 0},
+            duration: 1800,
+            paused: true
+        }).setCallback("onComplete", () => this.time.delayedCall(textDelay, () => this.playTween(tweenList, tweensPlayed++)));
+
+        let text5 = this.add.text(960, 200, "Immediately regretting his suggestion, little Frankie bursted into tears and sobbed frantically.")
+            .setFontFamily('Serif')
+            .setFontSize(40)
+            .setAlign('center')
+            .setOrigin(0.5, 0)
+            .setWordWrapWidth(1000);
+
+        this.tweens.add({
+            targets: text5,
+            alpha: {start: 0, to: 1},
+            duration: 600,
+            paused: true
+        }).setCallback("onComplete", () => this.time.delayedCall(textDelay, () => this.playTween(tweenList, tweensPlayed++)));
+
+        let text6 = this.add.text(960, 320, "\“Everything will be alright, I\’m right here with you,\” said Freddy as he held Frankie until he calmed down.")
+            .setFontFamily('Serif')
+            .setFontSize(40)
+            .setAlign('center')
+            .setOrigin(0.5, 0)
+            .setWordWrapWidth(1000);
+
+        this.tweens.add({
+            targets: text6,
+            alpha: {start: 0, to: 1},
+            duration: 600,
+            paused: true
+        }).setCallback("onComplete", () => this.time.delayedCall(textDelay, () => this.playTween(tweenList, tweensPlayed++)));
+
+        let text7 = this.add.text(960, 480, "Unfortunately for them, something was out of place...")
+            .setFontFamily('Serif')
+            .setFontSize(60)
+            .setColor("#fc0000")
+            .setAlign('center')
+            .setOrigin(0.5, 0)
+            .setWordWrapWidth(1000);
+        
+        this.tweens.add({
+            targets: text7,
+            alpha: {start: 0, to: 1},
+            duration: 600,
+            paused: true
+        }).setCallback("onComplete", () => {
+            this.time.delayedCall(1000, () => {
+                this.cameras.main.fadeOut(1200, 0, 0, 0, (c, t) => {
+                    if (t >= 1) this.scene.start('demo1');
+                })
+            })
+        });
+
+        tweenList = this.tweens.getTweens();
+        this.playTween(tweenList, tweensPlayed++);
+    }
+
+    playTween(tweenList, tweenNumber) {
+        tweenList[tweenNumber].play();
+    }
+}
+
 class Outro extends Phaser.Scene {
     constructor() {
         super('outro');
@@ -238,7 +379,7 @@ const game = new Phaser.Game({
         width: 1920,
         height: 1080
     },
-    scene: [Intro, Splash, Title],
+    scene: [Intro, Splash, Title, Exposition, Demo1],
     title: "Adventure Game",
 });
 

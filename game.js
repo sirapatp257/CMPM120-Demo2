@@ -96,12 +96,125 @@ class Intro extends Phaser.Scene {
     constructor() {
         super('intro')
     }
+    
+    preload() {
+        this.load.path = "./assets/";
+        this.load.image("gemstone", "images/Gemstone.png");
+        this.load.image("halo", "images/LogoHalo.png");
+        this.load.image("studioSign", "images/DivineGemstoneLogoText.png");
+        this.load.audio("hum", "sounds/hum-edited.wav");
+    }
+
     create() {
-        this.add.text(50,50, "Adventure awaits!").setFontSize(50);
-        this.add.text(50,100, "Click anywhere to begin.").setFontSize(20);
+        this.add.text(960, 180, "NOTICE").setFontFamily('Serif')
+            .setFontSize(90)
+            .setColor("#fc0000")
+            .setAlign('center')
+            .setOrigin(0.5);
+        
+        this.add.text(960, 270, "This game requires a mouse for the best experience.\n\nMild horror elements may be present in this game.")
+            .setFontFamily('Serif')
+            .setFontSize(60)
+            .setAlign('center')
+            .setOrigin(0.5, 0)
+            .setWordWrapWidth(800);
+        
+        let bottomLine = this.add.text(960, 840, "Click anywhere to proceed").setFontFamily('Serif')
+            .setFontSize(40)
+            .setAlign('center')
+            .setOrigin(0.5, 0);
+        
+        this.tweens.add({
+            targets: bottomLine,
+            alpha: 0.1,
+            yoyo: true,
+            duration: 1200,
+            repeat: -1
+        });
+
         this.input.on('pointerdown', () => {
             this.cameras.main.fade(1000, 0,0,0);
-            this.time.delayedCall(1000, () => this.scene.start('demo1'));
+            this.time.delayedCall(1000, () => this.scene.start('splash'));
+        });
+    }
+}
+
+class Splash extends Phaser.Scene {
+    constructor() {
+        super('splash');
+    }
+  
+    create() {
+        let sfx = this.sound.add("hum", {loop: false});
+  
+        let halo = this.add.image(960, 540, "halo").setScale(3);
+        halo.setAlpha(0);
+        this.tweens.add({
+           targets: halo,
+           alpha: 1,
+           duration: 1800,
+           delay: 750,
+           ease: 'Linear',
+        }).setCallback("onStart", () => sfx.play());
+  
+        let gemstone = this.add.image(960, -200, "gemstone").setScale(3);
+        this.tweens.add({
+           targets: gemstone,
+           y: 540,
+           duration: 700,
+           ease: 'Linear'
+        });
+  
+        let sign = this.add.image(960, -200, "studioSign").setScale(0.9);
+        this.tweens.add({
+           targets: sign,
+           y: 920,
+           duration: 500,
+           delay: 2300,
+           ease: 'Linear',
+        }).setCallback("onComplete", () => {
+            this.time.delayedCall(800, () => this.cameras.main.fadeOut(1000, 0, 0, 0, (c, t) => {
+                if (t >= 1) this.scene.start('title');
+            }))
+        });
+    }
+}
+
+class Title extends Phaser.Scene {
+    constructor() {
+        super('title');
+    }
+
+    create() {
+        this.add.text(960, 200, "One Stormy Night\nat").setFontFamily('Serif')
+            .setFontSize(80)
+            .setAlign('center')
+            .setOrigin(0.5)
+            .setWordWrapWidth(800);
+
+        this.add.text(960, 340, "Freddy's").setFontFamily('Serif')
+            .setFontSize(80)
+            .setColor("#fc0000")
+            .setAlign('center')
+            .setOrigin(0.5)
+            .setWordWrapWidth(800);
+
+        let bottomLine = this.add.text(960, 840, "Click anywhere to begin").setFontFamily('Serif')
+            .setFontSize(40)
+            .setAlign('center')
+            .setOrigin(0.5, 0);
+        
+        this.tweens.add({
+            targets: bottomLine,
+            alpha: 0.1,
+            yoyo: true,
+            duration: 1200,
+            repeat: -1
+        });
+
+        this.input.on('pointerdown', () => {
+            this.cameras.main.fade(1000, 0,0,0);
+            this.time.delayedCall(1000, () => this.scene.start('exposition'));
         });
     }
 }
@@ -125,7 +238,7 @@ const game = new Phaser.Game({
         width: 1920,
         height: 1080
     },
-    scene: [Intro, Demo1, Demo2, Outro],
+    scene: [Intro, Splash, Title],
     title: "Adventure Game",
 });
 

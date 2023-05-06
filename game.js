@@ -1,63 +1,59 @@
-class Demo1 extends AdventureScene {
+class MainHall extends AdventureScene {
     constructor() {
-        super("demo1", "First Room");
+        super("adv1", "Main Hall");
     }
 
     onEnter() {
-
-        let clip = this.add.text(this.w * 0.3, this.w * 0.3, "📎 paperclip")
-            .setFontSize(this.s * 2)
+        this.add.image(720, 540,"mainHall").setOrigin(0.5).setScale(4.5);
+        let door = this.add.sprite(1080, 660, "door").setOrigin(0.5).setScale(2)
             .setInteractive()
-            .on('pointerover', () => this.showMessage("Metal, bent."))
-            .on('pointerdown', () => {
-                this.showMessage("No touching!");
-                this.tweens.add({
-                    targets: clip,
-                    x: '+=' + this.s,
-                    repeat: 2,
-                    yoyo: true,
-                    ease: 'Sine.inOut',
-                    duration: 100
-                });
+            .on('pointerover', () => {
+                this.showMessage("This door leads outside. Why would I want to go outside now?");
+            });
+        door.postFX.addShine(0.7, 0.1);
+
+        let dude = this.add.sprite(830, 735, "frank").setOrigin(0.5).setScale(3)
+            .setInteractive()
+            .on('pointerover', () => {
+                this.showMessage("Poor Frankie. Oh well, I\'m sure he'll get over it soon enough.");
             });
 
-        let key = this.add.text(this.w * 0.5, this.w * 0.1, "🔑 key")
-            .setFontSize(this.s * 2)
+        let leftArrow = this.add.sprite(100, 540, "arrow").setOrigin(0.5)
             .setInteractive()
             .on('pointerover', () => {
-                this.showMessage("It's a nice key.")
+                this.showMessage("That way to the idol room. I don't know what it is, but something about it feels off tonight.");
             })
             .on('pointerdown', () => {
-                this.showMessage("You pick up the key.");
-                this.gainItem('key');
-                this.tweens.add({
-                    targets: key,
-                    y: `-=${2 * this.s}`,
-                    alpha: { from: 1, to: 0 },
-                    duration: 500,
-                    onComplete: () => key.destroy()
-                });
-            })
+                this.gotoScene('adv3');
+            });
+        leftArrow.setFlipX(true);
+        leftArrow.postFX.addShine(0.4, 0.05);
 
-        let door = this.add.text(this.w * 0.1, this.w * 0.15, "🚪 locked door")
-            .setFontSize(this.s * 2)
+        this.tweens.add({
+            targets: leftArrow,
+            x: leftArrow.x + this.s * 3,
+            duration: 1200,
+            yoyo: true,
+            repeat: -1
+        });
+
+        let rightArrow = this.add.sprite(1360, 720, "arrow").setOrigin(0.5)
             .setInteractive()
             .on('pointerover', () => {
-                if (this.hasItem("key")) {
-                    this.showMessage("You've got the key for this door.");
-                } else {
-                    this.showMessage("It's locked. Can you find a key?");
-                }
+                this.showMessage("That way to my bedroom. Maybe there\'s something there that I can use to entertain Frankie.");
             })
             .on('pointerdown', () => {
-                if (this.hasItem("key")) {
-                    this.loseItem("key");
-                    this.showMessage("*squeak*");
-                    door.setText("🚪 unlocked door");
-                    this.gotoScene('demo2');
-                }
-            })
+                this.gotoScene('adv2');
+            });
+        rightArrow.postFX.addShine(0.4, 0.05);
 
+        this.tweens.add({
+            targets: rightArrow,
+            x: rightArrow.x - this.s * 3,
+            duration: 1200,
+            yoyo: true,
+            repeat: -1
+        });
     }
 }
 
@@ -102,6 +98,10 @@ class Intro extends Phaser.Scene {
         this.load.image("gemstone", "images/Gemstone.png");
         this.load.image("halo", "images/LogoHalo.png");
         this.load.image("studioSign", "images/DivineGemstoneLogoText.png");
+        this.load.image("arrow", "images/Arrow.png");
+        this.load.image("mainHall", "images/MainHall.png");
+        this.load.image("door", "images/FrontDoor.png");
+        this.load.image("frank", "images/Frankie.png");
         this.load.audio("hum", "sounds/hum-edited.wav");
         this.load.audio("boom", "sounds/Explosion6.wav");
         this.load.audio("bgm", "sounds/LilacCity.wav");
@@ -176,7 +176,7 @@ class Splash extends Phaser.Scene {
            ease: 'Linear',
         }).setCallback("onComplete", () => {
             this.time.delayedCall(800, () => this.cameras.main.fadeOut(1000, 0, 0, 0, (c, t) => {
-                if (t >= 1) this.scene.start('exposition');
+                if (t >= 1) this.scene.start('title');
             }))
         });
     }
@@ -346,7 +346,7 @@ class Exposition extends Phaser.Scene {
         }).setCallback("onComplete", () => {
             this.time.delayedCall(1000, () => {
                 this.cameras.main.fadeOut(1200, 0, 0, 0, (c, t) => {
-                    if (t >= 1) this.scene.start('demo1');
+                    if (t >= 1) this.scene.start('adv1');
                 })
             })
         });
@@ -379,7 +379,7 @@ const game = new Phaser.Game({
         width: 1920,
         height: 1080
     },
-    scene: [Intro, Splash, Title, Exposition, Demo1],
+    scene: [Intro, Splash, Title, Exposition, MainHall],
     title: "Adventure Game",
 });
 

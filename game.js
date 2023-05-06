@@ -5,24 +5,6 @@ class MainHall extends AdventureScene {
 
     onEnter() {
         this.basicSetup();
-
-        // let rightArrow = this.add.sprite(1360, 720, "arrow").setOrigin(0.5)
-        //     .setInteractive()
-        //     .on('pointerover', () => {
-        //         this.showMessage("That way to my bedroom. Maybe there\'s something there that I can use to entertain Frankie.");
-        //     })
-        //     .on('pointerdown', () => {
-        //         this.gotoScene('adv2');
-        //     });
-        // rightArrow.postFX.addShine(0.4, 0.05);
-
-        // this.tweens.add({
-        //     targets: rightArrow,
-        //     x: rightArrow.x - this.s * 3,
-        //     duration: 1200,
-        //     yoyo: true,
-        //     repeat: -1
-        // });
     }
 }
 

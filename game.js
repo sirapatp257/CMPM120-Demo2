@@ -4,56 +4,25 @@ class MainHall extends AdventureScene {
     }
 
     onEnter() {
-        this.add.image(720, 540,"mainHall").setOrigin(0.5).setScale(4.5);
-        let door = this.add.sprite(1080, 660, "door").setOrigin(0.5).setScale(2)
-            .setInteractive()
-            .on('pointerover', () => {
-                this.showMessage("This door leads outside. Why would I want to go outside now?");
-            });
-        door.postFX.addShine(0.7, 0.1);
+        this.basicSetup();
 
-        let dude = this.add.sprite(830, 735, "frank").setOrigin(0.5).setScale(3)
-            .setInteractive()
-            .on('pointerover', () => {
-                this.showMessage("Poor Frankie. Oh well, I\'m sure he'll get over it soon enough.");
-            });
+        // let rightArrow = this.add.sprite(1360, 720, "arrow").setOrigin(0.5)
+        //     .setInteractive()
+        //     .on('pointerover', () => {
+        //         this.showMessage("That way to my bedroom. Maybe there\'s something there that I can use to entertain Frankie.");
+        //     })
+        //     .on('pointerdown', () => {
+        //         this.gotoScene('adv2');
+        //     });
+        // rightArrow.postFX.addShine(0.4, 0.05);
 
-        let leftArrow = this.add.sprite(100, 540, "arrow").setOrigin(0.5)
-            .setInteractive()
-            .on('pointerover', () => {
-                this.showMessage("That way to the idol room. I don't know what it is, but something about it feels off tonight.");
-            })
-            .on('pointerdown', () => {
-                this.gotoScene('adv3');
-            });
-        leftArrow.setFlipX(true);
-        leftArrow.postFX.addShine(0.4, 0.05);
-
-        this.tweens.add({
-            targets: leftArrow,
-            x: leftArrow.x + this.s * 3,
-            duration: 1200,
-            yoyo: true,
-            repeat: -1
-        });
-
-        let rightArrow = this.add.sprite(1360, 720, "arrow").setOrigin(0.5)
-            .setInteractive()
-            .on('pointerover', () => {
-                this.showMessage("That way to my bedroom. Maybe there\'s something there that I can use to entertain Frankie.");
-            })
-            .on('pointerdown', () => {
-                this.gotoScene('adv2');
-            });
-        rightArrow.postFX.addShine(0.4, 0.05);
-
-        this.tweens.add({
-            targets: rightArrow,
-            x: rightArrow.x - this.s * 3,
-            duration: 1200,
-            yoyo: true,
-            repeat: -1
-        });
+        // this.tweens.add({
+        //     targets: rightArrow,
+        //     x: rightArrow.x - this.s * 3,
+        //     duration: 1200,
+        //     yoyo: true,
+        //     repeat: -1
+        // });
     }
 }
 
@@ -105,9 +74,11 @@ class Intro extends Phaser.Scene {
         this.load.audio("hum", "sounds/hum-edited.wav");
         this.load.audio("boom", "sounds/Explosion6.wav");
         this.load.audio("bgm", "sounds/LilacCity.wav");
+        this.load.json("sceneData", "miscellaneous/SceneData.json");
     }
 
     create() {
+        this.scene.start('adv1');
         this.add.text(960, 180, "NOTICE").setFontFamily('Serif')
             .setFontSize(90)
             .setColor("#fc0000")

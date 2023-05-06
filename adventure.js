@@ -147,4 +147,48 @@ class AdventureScene extends Phaser.Scene {
     onEnter() {
         console.warn('This AdventureScene did not implement onEnter():', this.constructor.name);
     }
+
+    basicSetup() {
+        let sceneDataJSON = this.cache.json.get('sceneData');
+        let sceneData = sceneDataJSON[this.constructor.name];
+        let items = [];
+
+        let bgName = sceneData.backgroundKey;
+        this.add.image(720, 540, bgName).setOrigin(0.5).setScale(4.5);
+
+        for (let item of sceneData.items) {
+            items[item.name] = this.add.sprite(item.x, item.y, item.spriteKey).setOrigin(0.5)
+                .setAngle(item.angle)
+                .setScale(item.scale)
+                .setInteractive()
+            
+            if (item.idleAnim) {
+                let tweenConfig = {targets: items[item.name]};
+                for (let attribute in item.idleAnim) {
+                    tweenConfig[attribute] = item.idleAnim[attribute];
+                }
+                console.log(tweenConfig);
+                this.tweens.add(tweenConfig);
+            }
+
+            if (item.pointeroverMsg) items[item.name].on('pointerover', () => {
+                this.showMessage(item.pointeroverMsg);
+            });
+
+            if (item.pointerdownFX) {
+                switch(item.pointerdownFX.type) {
+                    case "advTransition" :
+                        items[item.name].on('pointerdown', () => this.gotoScene(item.pointerdownFX.target));
+                        break;
+                    case "itemPickup" :
+                        items[item.name].on('pointerdown', () => this.gainItem(item.name));
+                        break;
+                    default:
+                        console.log("Effect type not supported: " + item.pointerdownFX.type);
+                }
+            }
+
+            if (item.shine) items[item.name].postFX.addShine(item.shine[0], item.shine[1]);
+        }
+    }
 }

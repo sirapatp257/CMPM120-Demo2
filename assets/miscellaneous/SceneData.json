@@ -1,0 +1,69 @@
+{
+   "MainHall" : {
+      "backgroundKey" : "mainHall",
+      "items" : [
+         {
+            "name" : "Door",
+            "x" : 1080,
+            "y" : 660,
+            "spriteKey" : "door",
+            "angle" : 0,
+            "scale" : 2,
+            "pointeroverMsg" : "This door leads outside. Why would I want to go outside now?",
+            "shine" : [0.7, 0.1]
+         },
+         
+         {
+            "name" : "Frankie",
+            "x" : 830,
+            "y" : 735,
+            "spriteKey" : "frank",
+            "angle" : 0,
+            "scale" : 3,
+            "pointeroverMsg" :  "Poor Frankie. Oh well, I'm sure he'll get over it soon enough."
+         },
+
+         {
+            "name" : "Left Arrow",
+            "x" : 100,
+            "y" : 540,
+            "spriteKey" : "arrow",
+            "angle" : 180,
+            "scale" : 1,
+            "idleAnim" : {
+               "x": 160,
+               "duration": 1200,
+               "yoyo": true,
+               "repeat": -1
+            },
+            "pointeroverMsg" :  "That way to the idol room. I don't know what it is, but something about it feels off tonight.",
+            "pointerdownFX" : {
+               "type" : "advTransition",
+               "target" : "adv3"
+            },
+            "shine" : [0.4, 0.05]
+         },
+
+         {
+            "name" : "Right Arrow",
+            "x" : 1360,
+            "y" : 720,
+            "spriteKey" : "arrow",
+            "angle" : 0,
+            "scale" : 1,
+            "idleAnim" : {
+               "x": 1300,
+               "duration": 1200,
+               "yoyo": true,
+               "repeat": -1
+            },
+            "pointeroverMsg" :  "That way to my bedroom. Maybe there's something there that I can use to entertain Frankie.",
+            "pointerdownFX" : {
+               "type" : "advTransition",
+               "target" : "adv2"
+            },
+            "shine" : [0.4, 0.05]
+         }
+      ]  
+   }
+}

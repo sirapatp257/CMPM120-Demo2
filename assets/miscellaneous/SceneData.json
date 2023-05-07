@@ -7,7 +7,6 @@
             "x" : 1080,
             "y" : 660,
             "spriteKey" : "door",
-            "angle" : 0,
             "scale" : 2,
             "pointeroverMsg" : "This door leads outside. Why would I want to go outside now?",
             "shine" : [0.7, 0.1]
@@ -18,7 +17,6 @@
             "x" : 830,
             "y" : 735,
             "spriteKey" : "frank",
-            "angle" : 0,
             "scale" : 3,
             "pointeroverMsg" :  "Poor Frankie. Oh well, I'm sure he'll get over it soon enough."
          },
@@ -29,7 +27,6 @@
             "y" : 540,
             "spriteKey" : "arrow",
             "angle" : 180,
-            "scale" : 1,
             "idleAnim" : {
                "x": 160,
                "duration": 1200,
@@ -49,8 +46,6 @@
             "x" : 1360,
             "y" : 720,
             "spriteKey" : "arrow",
-            "angle" : 0,
-            "scale" : 1,
             "idleAnim" : {
                "x": 1300,
                "duration": 1200,
@@ -117,7 +112,6 @@
             "y" : 540,
             "spriteKey" : "arrow",
             "angle" : 180,
-            "scale" : 1,
             "idleAnim" : {
                "x": 160,
                "duration": 1200,
@@ -142,7 +136,6 @@
             "x" : 230,
             "y" : 715,
             "spriteKey" : "amulet",
-            "angle" : 0,
             "scale" : 1.5,
             "pointeroverMsg" : "An amulet. Supposedly destroys evil. I don't know why, but I think I might need this tonight.",
             "pointerdownFX" : {
@@ -156,7 +149,6 @@
             "x" : 720,
             "y" : 620,
             "spriteKey" : "idol",
-            "angle" : 0,
             "scale" : 3,
             "pointeroverMsg" : "Some sort of figure. I wonder where mom and dad get these.",
             "pointerdownFX" : {
@@ -182,8 +174,6 @@
             "x" : 1360,
             "y" : 520,
             "spriteKey" : "arrow",
-            "angle" : 0,
-            "scale" : 1,
             "idleAnim" : {
                "x": 1300,
                "duration": 1200,
@@ -196,6 +186,55 @@
                "target" : "adv1"
             },
             "shine" : [0.4, 0.05]
+         }
+      ]
+   },
+
+   "Outside" : {
+      "backgroundKey" : "outside",
+      "items" : [
+         {
+            "name" : "Frankie",
+            "x" : 840,
+            "y" : 675,
+            "spriteKey" : "frank",
+            "scale" : 0.8
+         },
+
+         {
+            "name" : "Left Tree",
+            "x" : 120,
+            "y" : 560,
+            "spriteKey" : "tree",
+            "scale" : 2,
+            "pointeroverMsg" :  "Frankie must be somewhere around here. I have to find him!"
+         },
+
+         {
+            "name" : "Middle Tree",
+            "x" : 450,
+            "y" : 560,
+            "spriteKey" : "tree",
+            "scale" : 2,
+            "pointeroverMsg" :  "Frankie must be somewhere around here. I have to find him!"
+         },
+
+         {
+            "name" : "Right Tree",
+            "x" : 780,
+            "y" : 560,
+            "spriteKey" : "tree",
+            "scale" : 2,
+            "pointeroverMsg" :  "Frankie must be somewhere around here. I have to find him!"
+         },
+
+         {
+            "name" : "Evil Spirit",
+            "x" : 1200,
+            "y" : 600,
+            "spriteKey": "spirit",
+            "scale" : 1,
+            "pointeroverMsg" : "I don't know what that thing is, but it looks like it's up to no good."
          }
       ]
    }

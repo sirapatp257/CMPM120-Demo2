@@ -75,7 +75,7 @@ class Intro extends Phaser.Scene {
     }
 
     create() {
-        this.scene.start('adv3');
+        this.scene.start('adv4');
         this.add.text(960, 180, "NOTICE").setFontFamily('Serif')
             .setFontSize(90)
             .setColor("#fc0000")
@@ -347,7 +347,7 @@ const game = new Phaser.Game({
         width: 1920,
         height: 1080
     },
-    scene: [Intro, Splash, Title, Exposition, MainHall, Bedroom, IdolRoom],
+    scene: [Intro, Splash, Title, Exposition, MainHall, Bedroom, IdolRoom, Outside],
     title: "Adventure Game",
 });
 

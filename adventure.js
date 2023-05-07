@@ -158,11 +158,13 @@ class AdventureScene extends Phaser.Scene {
 
         for (let item of sceneData.items) {
             let anchor = (item.anchor) ? item.anchor : {"x" : 0.5, "y" : 0.5};
+            let angle = (item.angle) ? item.angle : 0;
+            let scale = (item.scale) ? item.scale: 1;
             console.log(item.name + " is anchored at (" + anchor.x + ", " + anchor.y + ")");
 
             items[item.name] = this.add.sprite(item.x, item.y, item.spriteKey).setOrigin(anchor.x, anchor.y)
-                .setAngle(item.angle)
-                .setScale(item.scale)
+                .setAngle(angle)
+                .setScale(scale)
                 .setInteractive()
             
             if (item.idleAnim) {

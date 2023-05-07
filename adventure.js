@@ -157,7 +157,10 @@ class AdventureScene extends Phaser.Scene {
         this.add.image(720, 540, bgName).setOrigin(0.5).setScale(4.5);
 
         for (let item of sceneData.items) {
-            items[item.name] = this.add.sprite(item.x, item.y, item.spriteKey).setOrigin(0.5)
+            let anchor = (item.anchor) ? item.anchor : {"x" : 0.5, "y" : 0.5};
+            console.log(item.name + " is anchored at (" + anchor.x + ", " + anchor.y + ")");
+
+            items[item.name] = this.add.sprite(item.x, item.y, item.spriteKey).setOrigin(anchor.x, anchor.y)
                 .setAngle(item.angle)
                 .setScale(item.scale)
                 .setInteractive()
@@ -194,6 +197,9 @@ class AdventureScene extends Phaser.Scene {
                             items[item.name].disableInteractive();
                         }
                         break;
+                    case "decoy":
+                        // TODO: make shake
+                        console.log("Item cannot be picked up.");
                     default:
                         console.log("Effect type not supported: " + item.pointerdownFX.type);
                 }

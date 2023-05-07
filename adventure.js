@@ -148,10 +148,43 @@ class AdventureScene extends Phaser.Scene {
         console.warn('This AdventureScene did not implement onEnter():', this.constructor.name);
     }
 
+    pickupItem(itemName) {
+        this.gainItem(itemName);
+
+        let item = this.items[itemName];
+        this.tweens.add({
+            targets: this.items[itemName],
+            y: item.y - 50,
+            alpha: 0,
+            duration: 500
+        }).setCallback("onComplete", () => item.disableInteractive());
+    }
+
+    putDownItem(itemName) {
+        let sceneDataJSON = this.cache.json.get('sceneData');
+        let sceneData = sceneDataJSON[this.constructor.name];
+        let originalY;
+
+        for (let entry of sceneData.items) {
+            if (entry.name == itemName) {
+                originalY = entry.y;
+                break;
+            }
+        }
+
+        let item = this.items[itemName];
+        this.tweens.add({
+            targets: this.items[itemName],
+            y: {start: originalY - 50, to: originalY},
+            alpha: 1,
+            duration: 500
+        }).setCallback("onComplete", () => item.setInteractive());
+    }
+
     basicSetup() {
         let sceneDataJSON = this.cache.json.get('sceneData');
         let sceneData = sceneDataJSON[this.constructor.name];
-        let items = [];
+        this.items = [];
 
         let bgName = sceneData.backgroundKey;
         this.add.image(720, 540, bgName).setOrigin(0.5).setScale(4.5);
@@ -160,43 +193,44 @@ class AdventureScene extends Phaser.Scene {
             let anchor = (item.anchor) ? item.anchor : {"x" : 0.5, "y" : 0.5};
             let angle = (item.angle) ? item.angle : 0;
             let scale = (item.scale) ? item.scale: 1;
-            console.log(item.name + " is anchored at (" + anchor.x + ", " + anchor.y + ")");
 
-            items[item.name] = this.add.sprite(item.x, item.y, item.spriteKey).setOrigin(anchor.x, anchor.y)
+            this.items[item.name] = this.add.sprite(item.x, item.y, item.spriteKey).setOrigin(anchor.x, anchor.y)
                 .setAngle(angle)
                 .setScale(scale)
                 .setInteractive()
             
             if (item.idleAnim) {
-                let tweenConfig = {targets: items[item.name]};
+                let tweenConfig = {targets: this.items[item.name]};
                 for (let attribute in item.idleAnim) {
                     tweenConfig[attribute] = item.idleAnim[attribute];
                 }
                 this.tweens.add(tweenConfig);
             }
 
-            if (item.pointeroverMsg) items[item.name].on('pointerover', () => {
+            if (item.pointeroverMsg) this.items[item.name].on('pointerover', () => {
                 this.showMessage(item.pointeroverMsg);
             });
 
             if (item.pointerdownFX) {
                 switch(item.pointerdownFX.type) {
                     case "advTransition" :
-                        items[item.name].on('pointerdown', () => this.gotoScene(item.pointerdownFX.target));
+                        this.items[item.name].on('pointerdown', () => this.gotoScene(item.pointerdownFX.target));
                         break;
                     case "itemPickup" :
-                        items[item.name].on('pointerdown', () => {
-                            // TODO: animate picking up and replacing an item
-                            this.gainItem(item.name);
+                        this.items[item.name].on('pointerdown', () => {
+                            this.pickupItem(item.name);
                             if (item.pointerdownFX.swapTarget) {
                                 let swapTarget = item.pointerdownFX.swapTarget;
-                                if (this.hasItem(swapTarget)) this.loseItem(swapTarget);
+                                if (this.hasItem(swapTarget)) {
+                                    this.loseItem(swapTarget);
+                                    this.putDownItem(swapTarget);
+                                }
                             }
                         });
 
                         if (this.hasItem(item.name)) {
-                            items[item.name].setAlpha(0);
-                            items[item.name].disableInteractive();
+                            this.items[item.name].setAlpha(0);
+                            this.items[item.name].disableInteractive();
                         }
                         break;
                     case "decoy":
@@ -207,7 +241,7 @@ class AdventureScene extends Phaser.Scene {
                 }
             }
 
-            if (item.shine) items[item.name].postFX.addShine(item.shine[0], item.shine[1]);
+            if (item.shine) this.items[item.name].postFX.addShine(item.shine[0], item.shine[1]);
         }
     }
 }

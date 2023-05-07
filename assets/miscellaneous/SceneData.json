@@ -73,6 +73,9 @@
             "angle" : 90,
             "scale" : 0.75,
             "pointeroverMsg" : "The Delta Rod, a birthday gift from my Grandpa. Looks like some sort of superhero transformation device. Maybe Frankie would like to play superhero?",
+            "pointerdownFX" : {
+               "type" : "itemPickup"
+            },
             "shine" : [0.3, 0.1]
          },
 

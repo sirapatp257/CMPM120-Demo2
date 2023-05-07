@@ -1,7 +1,10 @@
 class AdventureScene extends Phaser.Scene {
 
     init(data) {
+        console.log(data);
         this.inventory = data.inventory || [];
+        this.leftMainHall = data.leftMainHall || false;
+        this.picUpright = data.picUpright || false;
     }
 
     constructor(key, name) {
@@ -140,7 +143,11 @@ class AdventureScene extends Phaser.Scene {
     gotoScene(key) {
         this.cameras.main.fade(this.transitionDuration, 0, 0, 0);
         this.time.delayedCall(this.transitionDuration, () => {
-            this.scene.start(key, { inventory: this.inventory });
+            this.scene.start(key, { 
+                inventory: this.inventory,
+                leftMainHall: this.leftMainHall,
+                picUpright: this.picUpright
+            });
         });
     }
 

@@ -5,6 +5,17 @@ class MainHall extends AdventureScene {
 
     onEnter() {
         this.basicSetup();
+
+        if (this.leftMainHall) {
+            this.items["Frankie"].destroy();
+            this.setPointerMessage(this.items["Door"], "Frankie's probably out there somewhere. I have to go bring him back inside.");
+            
+            if (this.hasItem("Umbrella")) {
+                // TODO: Go to bad ending A
+            }
+            else if (this.hasItem("Raincoat")) this.items["Door"].on('pointerdown', () => this.gotoScene('adv4'));
+            else this.items["Door"].on('pointerdown', () => this.showMessage("I'll need something to shield me from the pouring rain."));
+        }
     }
 }
 
@@ -15,6 +26,7 @@ class Bedroom extends AdventureScene {
 
     onEnter() {
         this.basicSetup();
+        this.leftMainHall = true;
 
         if (this.hasItem("Amulet")) {
             this.setPointerMessage(this.items["Delta Rod"], "It's glowing? On its own? I didn't know Delta Rod replicas do that!");
@@ -34,20 +46,38 @@ class IdolRoom extends AdventureScene {
 
     onEnter() {
         this.basicSetup();
+        this.leftMainHall = true;
         
-        this.items["Picture of Grandpa"].on('pointerdown', () => {
-            this.items["Picture of Grandpa"].disableInteractive();
-            this.tweens.add({
-                targets: this.items["Picture of Grandpa"],
-                angle: 0,
-                duration: 800
-            }).setCallback('onComplete', () => {
-                this.setPointerMessage(this.items["Picture of Grandpa"], 
-                    "A picture of Grandpa. I wonder if he's watching over me now."
-                );
-                this.items["Picture of Grandpa"].setInteractive();
+        let picObject = this.items["Picture of Grandpa"];
+        if (!this.picUpright) {
+            picObject.on('pointerdown', () => {
+                picObject.disableInteractive();
+                this.tweens.add({
+                    targets: picObject,
+                    angle: 0,
+                    duration: 800
+                }).setCallback('onComplete', () => {
+                    this.setPointerMessage(picObject, 
+                        "A picture of Grandpa. I wonder if he's watching over me now."
+                    );
+                    picObject.on('pointerdown', () => {
+                        this.showMessage("I should probably leave that as is.");
+                    });
+                    picObject.setInteractive();
+                    this.picUpright = true;
+                });
             });
-        });
+        }
+        else {
+            this.setPointerMessage(picObject, 
+                "A picture of Grandpa. I wonder if he's watching over me now."
+            );
+
+            picObject.setAngle(0)
+            .on('pointerdown', () => {
+                this.showMessage("I should probably leave that as is.");
+            });
+        }
 
         if (this.hasItem("Delta Rod")) {
             this.setPointerMessage(this.items["Amulet"], "Curious. I've never seen that amulet glow like that before.");
@@ -62,6 +92,10 @@ class Outside extends AdventureScene {
 
     onEnter() {
         this.basicSetup();
+
+        if(this.picUpright) {
+            this.items["Evil Spirit"].destroy();
+        }
     }
 }
 

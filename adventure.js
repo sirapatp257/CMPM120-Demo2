@@ -181,6 +181,17 @@ class AdventureScene extends Phaser.Scene {
         }).setCallback("onComplete", () => item.setInteractive());
     }
 
+    setPointerMessage(item, msg) {
+        item.on('pointerover', () => {
+            this.showMessage(msg);
+        });
+    }
+
+    pickupRefresh() {
+        // Function prototype -- in case things in the scene need to be updated after an item is picked up.
+        console.warn("pickupRefresh() not implemented in this scene");
+    }
+
     basicSetup() {
         let sceneDataJSON = this.cache.json.get('sceneData');
         let sceneData = sceneDataJSON[this.constructor.name];
@@ -207,9 +218,7 @@ class AdventureScene extends Phaser.Scene {
                 this.tweens.add(tweenConfig);
             }
 
-            if (item.pointeroverMsg) this.items[item.name].on('pointerover', () => {
-                this.showMessage(item.pointeroverMsg);
-            });
+            if (item.pointeroverMsg) this.setPointerMessage(this.items[item.name], item.pointeroverMsg);
 
             if (item.pointerdownFX) {
                 switch(item.pointerdownFX.type) {
@@ -219,6 +228,7 @@ class AdventureScene extends Phaser.Scene {
                     case "itemPickup" :
                         this.items[item.name].on('pointerdown', () => {
                             this.pickupItem(item.name);
+                            this.pickupRefresh();
                             if (item.pointerdownFX.swapTarget) {
                                 let swapTarget = item.pointerdownFX.swapTarget;
                                 if (this.hasItem(swapTarget)) {

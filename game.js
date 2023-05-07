@@ -15,6 +15,15 @@ class Bedroom extends AdventureScene {
 
     onEnter() {
         this.basicSetup();
+
+        if (this.hasItem("Amulet")) {
+            this.setPointerMessage(this.items["Delta Rod"], "It's glowing? On its own? I didn't know Delta Rod replicas do that!");
+        }
+    }
+
+    pickupRefresh() {
+        if (this.hasItem("Umbrella")) this.setPointerMessage(this.items["Raincoat"], "Maybe I should go with a raincoat instead?");
+        if (this.hasItem("Raincoat")) this.setPointerMessage(this.items["Umbrella"], "Maybe I should go with an umbrella instead?");
     }
 }
 
@@ -25,6 +34,24 @@ class IdolRoom extends AdventureScene {
 
     onEnter() {
         this.basicSetup();
+        
+        this.items["Picture of Grandpa"].on('pointerdown', () => {
+            this.items["Picture of Grandpa"].disableInteractive();
+            this.tweens.add({
+                targets: this.items["Picture of Grandpa"],
+                angle: 0,
+                duration: 800
+            }).setCallback('onComplete', () => {
+                this.setPointerMessage(this.items["Picture of Grandpa"], 
+                    "A picture of Grandpa. I wonder if he's watching over me now."
+                );
+                this.items["Picture of Grandpa"].setInteractive();
+            });
+        });
+
+        if (this.hasItem("Delta Rod")) {
+            this.setPointerMessage(this.items["Amulet"], "Curious. I've never seen that amulet glow like that before.");
+        }
     }
 }
 

@@ -72,7 +72,7 @@
             "spriteKey" : "delta",
             "angle" : 90,
             "scale" : 0.75,
-            "pointeroverMsg" : "The Delta Rod, a birthday gift from my Grandpa. Looks like some sort of superhero transformation device. Maybe Frankie would like to play superhero?",
+            "pointeroverMsg" : "A birthday gift from my Grandpa: a replica of Gigaguy's Delta Rod. Maybe Frankie would like to play superhero?",
             "pointerdownFX" : {
                "type" : "itemPickup"
             },

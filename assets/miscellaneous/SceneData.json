@@ -159,6 +159,9 @@
             "angle" : 0,
             "scale" : 3,
             "pointeroverMsg" : "Some sort of figure. I wonder where mom and dad get these.",
+            "pointerdownFX" : {
+               "type" : "decoy"
+            },
             "shine" : [0.3, 0.1]
          },
 

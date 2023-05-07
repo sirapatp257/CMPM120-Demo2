@@ -8,34 +8,33 @@ class MainHall extends AdventureScene {
     }
 }
 
-class Demo2 extends AdventureScene {
+class Bedroom extends AdventureScene {
     constructor() {
-        super("demo2", "The second room has a long name (it truly does).");
+        super("adv2", "Freddy's Bedroom");
     }
-    onEnter() {
-        this.add.text(this.w * 0.3, this.w * 0.4, "just go back")
-            .setFontSize(this.s * 2)
-            .setInteractive()
-            .on('pointerover', () => {
-                this.showMessage("You've got no other choice, really.");
-            })
-            .on('pointerdown', () => {
-                this.gotoScene('demo1');
-            });
 
-        let finish = this.add.text(this.w * 0.6, this.w * 0.2, '(finish the game)')
-            .setInteractive()
-            .on('pointerover', () => {
-                this.showMessage('*giggles*');
-                this.tweens.add({
-                    targets: finish,
-                    x: this.s + (this.h - 2 * this.s) * Math.random(),
-                    y: this.s + (this.h - 2 * this.s) * Math.random(),
-                    ease: 'Sine.inOut',
-                    duration: 500
-                });
-            })
-            .on('pointerdown', () => this.gotoScene('outro'));
+    onEnter() {
+        this.basicSetup();
+    }
+}
+
+class IdolRoom extends AdventureScene {
+    constructor() {
+        super("adv3", "Idol Room");
+    }
+
+    onEnter() {
+        this.basicSetup();
+    }
+}
+
+class Outside extends AdventureScene {
+    constructor() {
+        super("adv4", "Outside Freddy's");
+    }
+
+    onEnter() {
+        this.basicSetup();
     }
 }
 
@@ -49,10 +48,26 @@ class Intro extends Phaser.Scene {
         this.load.image("gemstone", "images/Gemstone.png");
         this.load.image("halo", "images/LogoHalo.png");
         this.load.image("studioSign", "images/DivineGemstoneLogoText.png");
+        
         this.load.image("arrow", "images/Arrow.png");
         this.load.image("mainHall", "images/MainHall.png");
         this.load.image("door", "images/FrontDoor.png");
         this.load.image("frank", "images/Frankie.png");
+        
+        this.load.image("bedroom", "images/Bedroom.png");
+        this.load.image("delta", "images/DeltaRod.png");
+        this.load.image("umbrella", "images/Umbrella.png");
+        this.load.image("raincoat", "images/Raincoat.png");
+
+        this.load.image("idolRoom", "images/IdolRoomBackground.png");
+        this.load.image("amulet", "images/Amulet.png");
+        this.load.image("idol", "images/Idol.png");
+        this.load.image("grandpa", "images/GrampsPortrait.png");
+
+        this.load.image("outside", "images/OutsideNight.png");
+        this.load.image("tree", "images/Tree.png");
+        this.load.image("spirit", "images/EvilSpirit.png");
+
         this.load.audio("hum", "sounds/hum-edited.wav");
         this.load.audio("boom", "sounds/Explosion6.wav");
         this.load.audio("bgm", "sounds/LilacCity.wav");
@@ -60,7 +75,7 @@ class Intro extends Phaser.Scene {
     }
 
     create() {
-        this.scene.start('adv1');
+        this.scene.start('adv2');
         this.add.text(960, 180, "NOTICE").setFontFamily('Serif')
             .setFontSize(90)
             .setColor("#fc0000")
@@ -332,7 +347,7 @@ const game = new Phaser.Game({
         width: 1920,
         height: 1080
     },
-    scene: [Intro, Splash, Title, Exposition, MainHall],
+    scene: [Intro, Splash, Title, Exposition, MainHall, Bedroom],
     title: "Adventure Game",
 });
 

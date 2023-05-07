@@ -167,7 +167,6 @@ class AdventureScene extends Phaser.Scene {
                 for (let attribute in item.idleAnim) {
                     tweenConfig[attribute] = item.idleAnim[attribute];
                 }
-                console.log(tweenConfig);
                 this.tweens.add(tweenConfig);
             }
 
@@ -181,7 +180,19 @@ class AdventureScene extends Phaser.Scene {
                         items[item.name].on('pointerdown', () => this.gotoScene(item.pointerdownFX.target));
                         break;
                     case "itemPickup" :
-                        items[item.name].on('pointerdown', () => this.gainItem(item.name));
+                        items[item.name].on('pointerdown', () => {
+                            // TODO: animate picking up and replacing an item
+                            this.gainItem(item.name);
+                            if (item.pointerdownFX.swapTarget) {
+                                let swapTarget = item.pointerdownFX.swapTarget;
+                                if (this.hasItem(swapTarget)) this.loseItem(swapTarget);
+                            }
+                        });
+
+                        if (this.hasItem(item.name)) {
+                            items[item.name].setAlpha(0);
+                            items[item.name].disableInteractive();
+                        }
                         break;
                     default:
                         console.log("Effect type not supported: " + item.pointerdownFX.type);

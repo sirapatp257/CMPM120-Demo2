@@ -65,5 +65,79 @@
             "shine" : [0.4, 0.05]
          }
       ]  
+   },
+
+   "Bedroom" : {
+      "backgroundKey" : "bedroom",
+      "items": [
+         {
+            "name" : "Left Arrow",
+            "x" : 100,
+            "y" : 540,
+            "spriteKey" : "arrow",
+            "angle" : 180,
+            "scale" : 1,
+            "idleAnim" : {
+               "x": 160,
+               "duration": 1200,
+               "yoyo": true,
+               "repeat": -1
+            },
+            "pointeroverMsg" :  "That way back to the main hall.",
+            "pointerdownFX" : {
+               "type" : "advTransition",
+               "target" : "adv1"
+            },
+            "shine" : [0.4, 0.05]
+         },
+
+         {
+            "name" : "Delta Rod",
+            "x" : 440,
+            "y" : 660,
+            "spriteKey" : "delta",
+            "angle" : 90,
+            "scale" : 0.75,
+            "pointeroverMsg" : "The Delta Rod, a birthday gift from my Grandpa. Looks like some sort of superhero transformation device. Maybe Frankie would like to play superhero?",
+            "shine" : [0.3, 0.1]
+         },
+
+         {
+            "name" : "Umbrella",
+            "x" : 720,
+            "y" : 760,
+            "spriteKey" : "umbrella",
+            "angle" : 345,
+            "scale" : 1.25,
+            "pointeroverMsg" : "An umbrella. Could be useful if I need to head out for whatever reason.",
+            "pointerdownFX" : {
+               "type" : "itemPickup",
+               "swapTarget" : "Raincoat"
+            },
+            "shine" : [0.3, 0.1]
+         },
+
+         {
+            "name" : "Raincoat",
+            "x" : 960,
+            "y" : 660,
+            "spriteKey" : "raincoat",
+            "angle" : 315,
+            "scale" : 1.25,
+            "pointeroverMsg" : "A raincoat. Could be useful if I need to head out for whatever reason.",
+            "pointerdownFX" : {
+               "type" : "itemPickup",
+               "swapTarget" : "Umbrella"
+            },
+            "shine" : [0.7, 0.1]
+         }
+      ]
+   },
+
+   "IdolRoom" : {
+      "backgroundKey" : "idolRoom", 
+      "items" : {
+
+      }
    }
 }

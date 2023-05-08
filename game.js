@@ -5,13 +5,21 @@ class MainHall extends AdventureScene {
 
     onEnter() {
         this.basicSetup();
+        let bgm = this.sound.get("bgm");
+        if (bgm == null) bgm = this.sound.add("bgm");
+        if (!bgm.isPlaying) bgm.play();
 
         if (this.leftMainHall) {
             this.items["Frankie"].destroy();
             this.setPointerMessage(this.items["Door"], "Frankie's probably out there somewhere. I have to go bring him back inside.");
             
             if (this.hasItem("Umbrella")) {
-                // TODO: Go to bad ending A
+                this.items["Door"].on('pointerdown', () => this.cameras.main.fadeOut(1000, 0, 0, 0, (c, t) => {
+                    if (t >= 1) {
+                        this.sound.get("bgm").stop();
+                        this.scene.start('badEndA');
+                    }
+                }));
             }
             else if (this.hasItem("Raincoat")) this.items["Door"].on('pointerdown', () => this.gotoScene('adv4'));
             else this.items["Door"].on('pointerdown', () => this.showMessage("I'll need something to shield me from the pouring rain."));
@@ -135,9 +143,15 @@ class Outside extends AdventureScene {
             default:
                 console.log("Unexpected roll value of " + roll);
         }
-        // TODO: transition into appropriate ending scene on clicking the correct tree
+        
         correctTree.on('pointerdown', () => {
-            console.log("You found Frankie!");
+            let end = this.picUpright ? 'goodEndB' : 'goodEndA'
+            this.cameras.main.fadeOut(1000, 0, 0, 0, (c, t) => {
+                if (t >= 1) {
+                    this.sound.get("bgm").stop();
+                    this.scene.start(end);
+                }
+            })
         });
 
         this.items["Frankie"].setX(correctTree.x);
@@ -162,13 +176,15 @@ class Outside extends AdventureScene {
             this.items["Evil Spirit"].destroy();
         }
         else {
+            let hasRequiredItems = this.hasItem("Amulet") && this.hasItem("Delta Rod");
+            let end = hasRequiredItems ? 'goodEndC' : 'badEndB';
             this.items["Evil Spirit"].on('pointerdown', () => {
-                if (this.hasItem("Amulet") && this.hasItem("Delta Rod")) {
-                    console.log("Evil Spirit defeated!");
-                }
-                else {
-                    console.log("Evil Spirit won!");
-                }
+                this.cameras.main.fadeOut(1000, 0, 0, 0, (c, t) => {
+                    if (t >= 1) {
+                        this.sound.get("bgm").stop();
+                        this.scene.start(end);
+                    }
+                })
             });
         }
     }
@@ -224,7 +240,12 @@ class Outside extends AdventureScene {
 
     catchCheck(findRoll) {
         if (findRoll == this.hideRoll) {
-            console.log("Evil Spirit got to Frankie!");
+            this.cameras.main.fadeOut(1000, 0, 0, 0, (c, t) => {
+                if (t >= 1) {
+                    this.sound.get("bgm").stop();
+                    this.scene.start('badEndC');
+                }
+            })
         }
     }
 }
@@ -262,11 +283,13 @@ class Intro extends Phaser.Scene {
         this.load.audio("hum", "sounds/hum-edited.wav");
         this.load.audio("boom", "sounds/Explosion6.wav");
         this.load.audio("bgm", "sounds/LilacCity.wav");
+
         this.load.json("sceneData", "miscellaneous/SceneData.json");
+        this.load.json("endData", "miscellaneous/EndScenes.json");
     }
 
     create() {
-        this.scene.start('adv1');
+        this.scene.start('exposition');
         this.add.text(960, 180, "NOTICE").setFontFamily('Serif')
             .setFontSize(90)
             .setColor("#fc0000")
@@ -404,7 +427,7 @@ class Exposition extends Phaser.Scene {
             alpha: {start: 0, to: 1},
             duration: 600,
             paused: true
-        }).setCallback("onComplete", () => this.time.delayedCall(textDelay, () => this.playTween(tweenList, tweensPlayed++)));
+        }).setCallback("onComplete", () => this.time.delayedCall(textDelay, () => playTween(tweenList, tweensPlayed++)));
 
         let text2 = this.add.text(960, 300, "However, unlike most of the previous times, Freddy hears a loud boom going off just outside his house. \“Probably the transformer exploding again,\” Freddy thought.")
             .setFontFamily('Serif')
@@ -420,7 +443,7 @@ class Exposition extends Phaser.Scene {
             paused: true
         }).setCallback("onStart", () => this.time.delayedCall(500, () => {
             sfx.play();
-            this.time.delayedCall(textDelay - 500, () => this.playTween(tweenList, tweensPlayed++));
+            this.time.delayedCall(textDelay - 500, () => playTween(tweenList, tweensPlayed++));
         }));
 
         let text3 = this.add.text(960, 480, "The house goes dark. Candles were then lit around the house to light the place up.")
@@ -435,7 +458,7 @@ class Exposition extends Phaser.Scene {
             alpha: {start: 0, to: 1},
             duration: 600,
             paused: true
-        }).setCallback("onComplete", () => this.time.delayedCall(textDelay, () => this.playTween(tweenList, tweensPlayed++)));
+        }).setCallback("onComplete", () => this.time.delayedCall(textDelay, () => playTween(tweenList, tweensPlayed++)));
 
         let text4 = this.add.text(960, 620, "Freddy’s little brother Frankie suggested that the Lilac City theme song be put on speaker to match the creepy atmosphere.")
             .setFontFamily('Serif')
@@ -451,7 +474,7 @@ class Exposition extends Phaser.Scene {
             paused: true
         }).setCallback("onStart", () => this.time.delayedCall(800, () => {
             bgm.play();
-            this.time.delayedCall(textDelay - 800, () => this.playTween(tweenList, tweensPlayed++));
+            this.time.delayedCall(textDelay - 800, () => playTween(tweenList, tweensPlayed++));
         }));
 
         this.tweens.add({
@@ -459,7 +482,7 @@ class Exposition extends Phaser.Scene {
             alpha: {from: 1, to: 0},
             duration: 1800,
             paused: true
-        }).setCallback("onComplete", () => this.time.delayedCall(textDelay, () => this.playTween(tweenList, tweensPlayed++)));
+        }).setCallback("onComplete", () => this.time.delayedCall(textDelay, () => playTween(tweenList, tweensPlayed++)));
 
         let text5 = this.add.text(960, 200, "Immediately regretting his suggestion, little Frankie bursted into tears and sobbed frantically.")
             .setFontFamily('Serif')
@@ -473,7 +496,7 @@ class Exposition extends Phaser.Scene {
             alpha: {start: 0, to: 1},
             duration: 600,
             paused: true
-        }).setCallback("onComplete", () => this.time.delayedCall(textDelay, () => this.playTween(tweenList, tweensPlayed++)));
+        }).setCallback("onComplete", () => this.time.delayedCall(textDelay, () => playTween(tweenList, tweensPlayed++)));
 
         let text6 = this.add.text(960, 320, "\“Everything will be alright, I\’m right here with you,\” said Freddy as he held Frankie until he calmed down.")
             .setFontFamily('Serif')
@@ -487,7 +510,7 @@ class Exposition extends Phaser.Scene {
             alpha: {start: 0, to: 1},
             duration: 600,
             paused: true
-        }).setCallback("onComplete", () => this.time.delayedCall(textDelay, () => this.playTween(tweenList, tweensPlayed++)));
+        }).setCallback("onComplete", () => this.time.delayedCall(textDelay, () => playTween(tweenList, tweensPlayed++)));
 
         let text7 = this.add.text(960, 480, "Unfortunately for them, something was out of place...")
             .setFontFamily('Serif')
@@ -505,31 +528,146 @@ class Exposition extends Phaser.Scene {
         }).setCallback("onComplete", () => {
             this.time.delayedCall(1000, () => {
                 this.cameras.main.fadeOut(1200, 0, 0, 0, (c, t) => {
-                    if (t >= 1) this.scene.start('adv1');
+                    if (t >= 1) this.scene.start('adv1', {});
                 })
             })
         });
 
         tweenList = this.tweens.getTweens();
-        this.playTween(tweenList, tweensPlayed++);
+        let playTween = function(tweenList, tweenNumber) {
+            tweenList[tweenNumber].play();
+        }
+
+        let skipButton = this.add.text(1800, 840, "SKIP").setFontSize(36).setOrigin(0.5).setInteractive()
+            .on('pointerdown', () => this.scene.start('adv1', {}));
+
+        this.tweens.add({
+            targets: skipButton,
+            alpha: 0.25,
+            yoyo: true,
+            duration: 800,
+            repeat: -1
+        });
+
+        playTween(tweenList, tweensPlayed++);
+    }
+}
+
+class GoodA extends Phaser.Scene {
+    constructor() {
+        super('goodEndA');
     }
 
-    playTween(tweenList, tweenNumber) {
+    create() {
+        EndSceneSetup(this, 'Good', 'A');
+    }
+}
+
+class GoodB extends Phaser.Scene {
+    constructor() {
+        super('goodEndB');
+    }
+
+    create() {
+        EndSceneSetup(this, 'Good', 'B');
+    }
+}
+
+class GoodC extends Phaser.Scene {
+    constructor() {
+        super('goodEndC');
+    }
+
+    create() {
+        EndSceneSetup(this, 'Good', 'C');
+    }
+}
+
+class BadA extends Phaser.Scene {
+    constructor() {
+        super('badEndA');
+    }
+
+    create() {
+        EndSceneSetup(this, 'Bad', 'A');
+    }
+}
+
+class BadB extends Phaser.Scene {
+    constructor() {
+        super('badEndB');
+    }
+
+    create() {
+        EndSceneSetup(this, 'Bad', 'B');
+    }
+}
+
+class BadC extends Phaser.Scene {
+    constructor() {
+        super('badEndC');
+    }
+
+    create() {
+        EndSceneSetup(this, 'Bad', 'C');
+    }
+}
+
+EndSceneSetup = function(target, type, variation) {
+    let jsonData = target.cache.json.get('endData');
+    let endData = jsonData[type][variation];
+    let tweenList;
+    target.tweensPlayed = 0;
+
+    let headerColor = target.Display.Color.GetColor()
+
+    for (let line of endData.bodyTextLines) {
+        let textLine = target.add.text(960, line.y, line.text).setOrigin(0.5).setColor("#ececec")
+            .setFontFamily('Serif')
+            .setFontSize(40)
+            .setAlign('center')
+            .setWordWrapWidth(1000);
+        
+        target.tweens.add({
+            targets: textLine,
+            alpha: {start: 0, to: 1},
+            duration: 600,
+            paused: true
+        }).setCallback('onComplete', () => target.time.delayedCall(800, () => {
+            playTween(tweenList, target.tweensPlayed++);
+        }));
+    }
+
+    let quitButton = target.add.rectangle(500, 940, 480, 120, 0xffffff).setInteractive();
+    quitButton.on('pointerover', () => quitButton.setFillStyle(0xaaaaaa));
+    quitButton.on('pointerout', () => quitButton.setFillStyle(0xffffff));
+    quitButton.on('pointerdown', () => target.cameras.main.fadeOut(1000, 0, 0, 0, (c, t) => {
+        if (t >= 1) target.scene.start('title');
+    }));
+    let quitText = target.add.text(500, 940, "Quit").setOrigin(0.5).setColor("0").setFontSize(40);
+
+    let restartButton = target.add.rectangle(1360, 940, 480, 120, 0xffffff).setInteractive();
+    restartButton.on('pointerover', () => restartButton.setFillStyle(0xaaaaaa));
+    restartButton.on('pointerout', () => restartButton.setFillStyle(0xffffff));
+    restartButton.on('pointerdown', () => target.cameras.main.fadeOut(1000, 0, 0, 0, (c, t) => {
+        if (t >= 1) target.scene.start('adv1', {});
+    }));
+    let restartText = target.add.text(1360, 940, "Restart").setOrigin(0.5).setColor("0").setFontSize(40);
+
+    target.tweens.add({
+        targets: [quitButton, quitText, restartButton, restartText],
+        alpha: {start: 0, to: 1},
+        duration: 600,
+        paused: true
+    });
+
+    tweenList = target.tweens.getTweens();
+    let playTween = function(tweenList, tweenNumber) {
         tweenList[tweenNumber].play();
     }
-}
 
-class Outro extends Phaser.Scene {
-    constructor() {
-        super('outro');
-    }
-    create() {
-        this.add.text(50, 50, "That's all!").setFontSize(50);
-        this.add.text(50, 100, "Click anywhere to restart.").setFontSize(20);
-        this.input.on('pointerdown', () => this.scene.start('intro'));
-    }
+    playTween(tweenList, target.tweensPlayed++);
 }
-
 
 const game = new Phaser.Game({
     scale: {
@@ -546,7 +684,13 @@ const game = new Phaser.Game({
         MainHall,
         Bedroom,
         IdolRoom,
-        Outside
+        Outside,
+        GoodA,
+        GoodB,
+        GoodC,
+        BadA,
+        BadB,
+        BadC
     ],
     title: "Adventure Game",
 });

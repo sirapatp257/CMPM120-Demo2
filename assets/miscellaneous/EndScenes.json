@@ -1,0 +1,37 @@
+{
+   "Good" : {
+      "A" : {
+         "endingName" : "Narrow Escape",
+         "bodyTextLines" : [
+            {
+               "y" : 300,
+               "text" : "Freddy rushed to retrieve Frankie and bring him back inside."
+            },
+
+            {
+               "y" : 390,
+               "text" : "The brothers slammed the door shut behind them and locked the door."
+            },
+
+            {
+               "y" : 480,
+               "text" : "Shaking, they exchanged a look of confusion."
+            },
+
+            {
+               "y" : 570,
+               "text" : "That night, a look of confusion and terror kept them up."
+            },
+
+            {
+               "y" : 660,
+               "text" : "One thought was in both their heads that night: \"What was that thing?\""
+            }
+         ]
+      }
+   },
+
+   "Bad" : {
+
+   }
+}

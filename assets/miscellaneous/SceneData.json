@@ -155,7 +155,8 @@
             "scale" : 3,
             "pointeroverMsg" : "Some sort of figure. I wonder where mom and dad get these.",
             "pointerdownFX" : {
-               "type" : "decoy"
+               "type" : "decoy",
+               "message" : "Mom and dad probably wouldn't be happy if I moved this."
             },
             "shine" : [0.3, 0.1]
          },

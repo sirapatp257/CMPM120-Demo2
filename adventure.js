@@ -250,8 +250,21 @@ class AdventureScene extends Phaser.Scene {
                         }
                         break;
                     case "decoy":
-                        // TODO: make shake
-                        console.log("Item cannot be picked up.");
+                        this.items[item.name].on('pointerdown', () => {
+                            this.items[item.name].disableInteractive();
+                            this.tweens.add({
+                                targets: this.items[item.name],
+                                x: '+= 40',
+                                ease: 'Sine.inOut',
+                                yoyo: true,
+                                duration: 200,
+                                repeat: 1
+                            }).setCallback('onComplete', () => {
+                                this.items[item.name].setInteractive();
+                            });
+
+                            if (item.pointerdownFX.message) this.showMessage(item.pointerdownFX.message);
+                        });
                         break;
                     default:
                         console.log("Effect type not supported: " + item.pointerdownFX.type);

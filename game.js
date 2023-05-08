@@ -177,7 +177,7 @@ class Outside extends AdventureScene {
         if (this.picUpright) return;
 
         this.spiritTeleportTimer += dt;
-        if (this.spiritTeleportTimer >= 2000) {
+        if (this.spiritTeleportTimer >= 3000) {
             this.spiritTeleportTimer = 0;
             this.teleportSpirit();
         }

@@ -289,7 +289,7 @@ class Intro extends Phaser.Scene {
     }
 
     create() {
-        this.scene.start('exposition');
+        this.scene.start('goodEndA');
         this.add.text(960, 180, "NOTICE").setFontFamily('Serif')
             .setFontSize(90)
             .setColor("#fc0000")
@@ -619,7 +619,14 @@ EndSceneSetup = function(target, type, variation) {
     let tweenList;
     target.tweensPlayed = 0;
 
-    let headerColor = target.Display.Color.GetColor()
+    let headerColor = (type == "Good") ? "#7cd67c" : "#c21010";
+    target.add.text(80, 160, `${type} Ending ${variation}:`).setOrigin(0, 0.5).setColor(headerColor)
+        .setFontFamily('Serif')
+        .setFontSize(70);
+
+    target.add.text(600, 160, endData.endingName).setOrigin(0, 0.5).setColor("#fcfcfc")
+        .setFontFamily('Serif')
+        .setFontSize(70);
 
     for (let line of endData.bodyTextLines) {
         let textLine = target.add.text(960, line.y, line.text).setOrigin(0.5).setColor("#ececec")

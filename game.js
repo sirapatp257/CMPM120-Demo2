@@ -93,8 +93,111 @@ class Outside extends AdventureScene {
     onEnter() {
         this.basicSetup();
 
+        // Learned random integer generation in JavaScript from
+        // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Math/random
+        this.hideRoll = Math.floor(Math.random() * 3);
+
+        this.spiritTeleportTimer = 0;
+
+        let correctTree;
+        switch(this.hideRoll) {
+            case 0:
+                correctTree = this.items["Left Tree"];
+                break;
+            case 1:
+                correctTree = this.items["Middle Tree"];
+                break;
+            case 2:
+                correctTree = this.items["Right Tree"];
+                break;
+            default:
+                console.log("Unexpected roll value of " + roll);
+        }
+        // TODO: transition into appropriate ending scene on clicking the correct tree
+
+        this.items["Frankie"].setX(correctTree.x);
+        this.tweens.chain({
+            targets: this.items["Frankie"],
+            tweens: [
+                {
+                    x: correctTree.x + 40,
+                    duration: 500
+                },
+
+                {
+                    x: correctTree.x,
+                    duration: 300
+                }
+            ],
+            repeatDelay: 2400,
+            repeat: -1
+        });
+
         if(this.picUpright) {
             this.items["Evil Spirit"].destroy();
+        }
+        else {
+            this.items["Evil Spirit"].on('pointerdown', () => {
+                if (this.hasItem("Amulet") && this.hasItem("Delta Rod")) {
+                    console.log("Evil Spirit defeated!");
+                }
+                else {
+                    console.log("Evil Spirit won!");
+                }
+            });
+        }
+    }
+
+    update(t, dt) {
+        this.spiritTeleportTimer += dt;
+        if (this.spiritTeleportTimer >= 2000) {
+            this.spiritTeleportTimer = 0;
+            this.teleportSpirit();
+        }
+    }
+
+    teleportSpirit() {
+        let findRoll = Math.floor(Math.random() * 3);
+
+        let target;
+        switch(findRoll) {
+            case 0:
+                target = this.items["Left Tree"];
+                break;
+            case 1:
+                target = this.items["Middle Tree"];
+                break;
+            case 2:
+                target = this.items["Right Tree"];
+                break;
+            default:
+                console.log("Unexpected roll value of " + roll);
+        }
+
+        this.tweens.chain({
+            targets: this.items["Evil Spirit"],
+            tweens: [
+                {
+                    alpha: 0,
+                    duration: 150
+                },
+
+                {
+                    x: target.x + 40,
+                    duration: 50
+                },
+
+                {
+                    alpha: 1,
+                    duration: 150
+                }
+            ]
+        }).setCallback('onComplete', () => this.catchCheck(findRoll));
+    }
+
+    catchCheck(findRoll) {
+        if (findRoll == this.hideRoll) {
+            console.log("Evil Spirit got to Frankie!");
         }
     }
 }
@@ -136,6 +239,7 @@ class Intro extends Phaser.Scene {
     }
 
     create() {
+        this.scene.start('adv1');
         this.add.text(960, 180, "NOTICE").setFontFamily('Serif')
             .setFontSize(90)
             .setColor("#fc0000")

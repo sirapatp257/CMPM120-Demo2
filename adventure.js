@@ -1,7 +1,6 @@
 class AdventureScene extends Phaser.Scene {
 
     init(data) {
-        console.log(data);
         this.inventory = data.inventory || [];
         this.leftMainHall = data.leftMainHall || false;
         this.picUpright = data.picUpright || false;
@@ -253,6 +252,7 @@ class AdventureScene extends Phaser.Scene {
                     case "decoy":
                         // TODO: make shake
                         console.log("Item cannot be picked up.");
+                        break;
                     default:
                         console.log("Effect type not supported: " + item.pointerdownFX.type);
                 }

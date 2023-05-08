@@ -206,28 +206,28 @@
 
          {
             "name" : "Left Tree",
-            "x" : 120,
-            "y" : 560,
+            "x" : 160,
+            "y" : 520,
             "spriteKey" : "tree",
-            "scale" : 2,
+            "scale" : 2.5,
             "pointeroverMsg" :  "Frankie must be somewhere around here. I have to find him!"
          },
 
          {
             "name" : "Middle Tree",
-            "x" : 450,
-            "y" : 560,
+            "x" : 490,
+            "y" : 520,
             "spriteKey" : "tree",
-            "scale" : 2,
+            "scale" : 2.5,
             "pointeroverMsg" :  "Frankie must be somewhere around here. I have to find him!"
          },
 
          {
             "name" : "Right Tree",
-            "x" : 780,
-            "y" : 560,
+            "x" : 820,
+            "y" : 520,
             "spriteKey" : "tree",
-            "scale" : 2,
+            "scale" : 2.5,
             "pointeroverMsg" :  "Frankie must be somewhere around here. I have to find him!"
          },
 

@@ -28,10 +28,128 @@
                "text" : "One thought was in both their heads that night: \"What was that thing?\""
             }
          ]
+      },
+
+      "B" : {
+         "endingName" : "Reunion?",
+         "bodyTextLines" : [
+            {
+               "y" : 300,
+               "text" : "\"Freddy! Freddy!\" Frankie called. \"You won't believe who I just saw!\""
+            },
+
+            {
+               "y" : 390,
+               "text" : "\"Who is it?\""
+            },
+
+            {
+               "y" : 480,
+               "text" : "\"Grandpa! He said he came back to play with me! But now he's gone again…\""
+            },
+
+            {
+               "y" : 570,
+               "text" : "\"That couldn’t be.\" Freddy felt uneasy. \"Come on, let’s get you back inside now.\""
+            },
+
+            {
+               "y" : 660,
+               "text" : "Freddy lay awake that night. Did Frankie really see his grandfather, or did he see someone, or something, else?"
+            }
+         ]
+      },
+
+      "C" : {
+         "endingName" : "Spirit Breaker",
+         "bodyTextLines" : [
+            {
+               "y" : 300,
+               "text" : "The amulet and the Delta Rod glowed together. A beam of light shot towards the evil spirit."
+            },
+
+            {
+               "y" : 390,
+               "text" : "\"No way,\" hissed the evil spirit. \"I thought the Spirit Breaker is no longer in this realm!\""
+            },
+
+            {
+               "y" : 500,
+               "text" : "\"Well, I'm still here,\" Freddy bluffed. And with that, the spirit disintegrated. Freddy approached Frankie to bring him back inside."
+            },
+
+            {
+               "y" : 610,
+               "text" : "\"You know what? I like that name. I think I'll keep it,\" Freddy thought to himself."
+            }
+         ]
       }
    },
 
    "Bad" : {
+      "A" : {
+         "endingName" : "Struck Down",
+         "bodyTextLines" : [
+            {
+               "y" : 300,
+               "text" : "Poor Freddy didn't make it very far outside his home."
+            },
 
+            {
+               "y" : 390,
+               "text" : "His umbrella shielded him from the pouring rain..."
+            },
+
+            {
+               "y" : 480,
+               "text" : "But in doing so, it drew lightning to him, rendering him unable to continue his search for Frankie."
+            }
+         ]
+      },
+
+      "B" : {
+         "endingName" : "Taken",
+         "bodyTextLines" : [
+            {
+               "y" : 300,
+               "text" : "\"Thanks for coming so close, child. I'll take you AND your brother. Master will be pleased!\""
+            },
+
+            {
+               "y" : 390,
+               "text" : "Try as he might, Freddy couldn't do a thing. He had no idea what he was dealing with."
+            },
+
+            {
+               "y" : 480,
+               "text" : "Alas, Freddy and Frankie were taken, never to be seen again."
+            }
+         ]
+      },
+
+      "C" : {
+         "endingName" : "Parted Ways",
+         "bodyTextLines" : [
+            {
+               "y" : 300,
+               "text" : "\"Freddy, help!\" Frankie cried."
+            },
+
+            {
+               "y" : 390,
+               "text" : "Try as he might, Freddy couldn't do a thing. He had no idea what he was dealing with."
+            },
+
+            {
+               "y" : 480,
+               "text" : "The shadowy figure next to Franky turned to face Freddy and smiled an eery grin."
+            },
+
+            {
+               "y" : 570,
+               "text" : "And with that, it disappeared, taking Frankie with it."
+            }
+         ]
+      }
    }
 }

@@ -6,7 +6,7 @@ class MainHall extends AdventureScene {
     onEnter() {
         this.basicSetup();
         let bgm = this.sound.get("bgm");
-        if (bgm == null) bgm = this.sound.add("bgm");
+        if (bgm == null) bgm = this.sound.add("bgm" , {loop: true});
         if (!bgm.isPlaying) bgm.play();
 
         if (this.leftMainHall) {
@@ -50,6 +50,9 @@ class Bedroom extends AdventureScene {
                 this.items["Delta Rod"].tint = Phaser.Display.Color.GetColor(intensity, intensity, intensity);
             });
         }
+
+        if (this.hasItem("Umbrella")) this.setPointerMessage(this.items["Raincoat"], "Maybe I should go with a raincoat instead?");
+        if (this.hasItem("Raincoat")) this.setPointerMessage(this.items["Umbrella"], "Maybe I should go with an umbrella instead?");
     }
 
     pickupRefresh() {
@@ -282,6 +285,7 @@ class Intro extends Phaser.Scene {
 
         this.load.audio("hum", "sounds/hum-edited.wav");
         this.load.audio("boom", "sounds/Explosion6.wav");
+        this.load.audio("refuse", "sounds/refuse.wav");
         this.load.audio("bgm", "sounds/LilacCity.wav");
 
         this.load.json("sceneData", "miscellaneous/SceneData.json");
@@ -289,7 +293,6 @@ class Intro extends Phaser.Scene {
     }
 
     create() {
-        this.scene.start('goodEndA');
         this.add.text(960, 180, "NOTICE").setFontFamily('Serif')
             .setFontSize(90)
             .setColor("#fc0000")

@@ -263,6 +263,10 @@ class AdventureScene extends Phaser.Scene {
                                 this.items[item.name].setInteractive();
                             });
 
+                            let sfx = this.sound.get("refuse");
+                            if (sfx == null) sfx = this.sound.add("refuse", {loop: false});
+                            sfx.play();
+
                             if (item.pointerdownFX.message) this.showMessage(item.pointerdownFX.message);
                         });
                         break;

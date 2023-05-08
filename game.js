@@ -29,7 +29,18 @@ class Bedroom extends AdventureScene {
         this.leftMainHall = true;
 
         if (this.hasItem("Amulet")) {
-            this.setPointerMessage(this.items["Delta Rod"], "It's glowing? On its own? I didn't know Delta Rod replicas do that!");
+            this.setPointerMessage(this.items["Delta Rod"], "It's flashing? On its own? I didn't know Delta Rod replicas do that!");
+            
+            this.tweens.addCounter({
+                from: 0.4,
+                to: 1,
+                duration: 1000,
+                yoyo: true,
+                repeat: -1
+            }).setCallback("onUpdate", (tween) => {
+                let intensity = 255 * tween.getValue();
+                this.items["Delta Rod"].tint = Phaser.Display.Color.GetColor(intensity, intensity, intensity);
+            });
         }
     }
 
@@ -80,7 +91,18 @@ class IdolRoom extends AdventureScene {
         }
 
         if (this.hasItem("Delta Rod")) {
-            this.setPointerMessage(this.items["Amulet"], "Curious. I've never seen that amulet glow like that before.");
+            this.setPointerMessage(this.items["Amulet"], "Interesting. I've never seen that amulet blink like that before.");
+
+            this.tweens.addCounter({
+                from: 0.4,
+                to: 1,
+                duration: 1000,
+                yoyo: true,
+                repeat: -1
+            }).setCallback("onUpdate", (tween) => {
+                let intensity = 255 * tween.getValue();
+                this.items["Amulet"].tint = Phaser.Display.Color.GetColor(intensity, intensity, intensity);
+            });
         }
     }
 }
@@ -114,6 +136,9 @@ class Outside extends AdventureScene {
                 console.log("Unexpected roll value of " + roll);
         }
         // TODO: transition into appropriate ending scene on clicking the correct tree
+        correctTree.on('pointerdown', () => {
+            console.log("You found Frankie!");
+        });
 
         this.items["Frankie"].setX(correctTree.x);
         this.tweens.chain({
@@ -149,6 +174,8 @@ class Outside extends AdventureScene {
     }
 
     update(t, dt) {
+        if (this.picUpright) return;
+
         this.spiritTeleportTimer += dt;
         if (this.spiritTeleportTimer >= 2000) {
             this.spiritTeleportTimer = 0;
@@ -410,7 +437,7 @@ class Exposition extends Phaser.Scene {
             paused: true
         }).setCallback("onComplete", () => this.time.delayedCall(textDelay, () => this.playTween(tweenList, tweensPlayed++)));
 
-        let text4 = this.add.text(960, 620, "Freddy\’s little brother Frankie suggested that the Lilac City theme song be put on speaker to match the creepy atmosphere.")
+        let text4 = this.add.text(960, 620, "Freddy’s little brother Frankie suggested that the Lilac City theme song be put on speaker to match the creepy atmosphere.")
             .setFontFamily('Serif')
             .setFontSize(40)
             .setAlign('center')

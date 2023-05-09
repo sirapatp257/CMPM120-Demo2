@@ -32,7 +32,7 @@ Experience requirements:
 - **2+ interactive objects in most scenes**:
     - `Exposition`: Skip button to bring the player straight to `MainHall`.
     - All Adventure scenes (except `Outside`): 1-2 arrows that allow the player to move from one scene to another.
-    - `MainHall`: Door that brings the player either to one of the endings or to the Outside scene depending on the player's inventory.
+    - `MainHall`: Door that brings the player either to one of the endings or to the `Outside` scene depending on the player's inventory.
     - `Bedroom`: collectible items (Delta Rod, Umbrella, Raincoat)
     - `IdolRoom`: collectible item (Amulet), decoy object (Idol), Picture of Grandpa (starts horizontal, rotates to vertical).
     - `Outside`: 3 trees (each of which may or may not bring the player to a good ending), Evil Spirit (may bring player to good or bad ending depending on the player's inventory.)

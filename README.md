@@ -18,7 +18,7 @@ Code requirements:
     - Enhancement 1: `pickupItem()` - animates an item being picked up, followed by adding the item to the player's inventory.
     - Enhancement 2: `putDownItem()` - animates an item being put back to where it was picked up from and removes the item from the player's inventory.
     - Enhancement 3: `setPointerMessage()` - sets an item's `pointerover` message.
-    - Enhancement 4: `pickupRefresh()` - called by `pickupItem()` to update relevant objects in the scene rather than using the `update()` method to check for changes every frame. Prototype is defined in adventure.js, but is only implemented in Bedroom since that is the only scene where such behavior is necessary.
+    - Enhancement 4: `pickupRefresh()` - called by `pickupItem()` to update relevant objects in the scene rather than using the `update()` method to check for changes every frame. Prototype is defined in adventure.js, but is only implemented in `Bedroom` since that is the only scene where such behavior is necessary.
     - Enhancement 5: `basicSetup()` - reads data from a JSON file to perform basic setup (e.g. placing background image and interactable items) on an Adventure scene.
     - Enhancement 6: modified `gotoScene()` to allow certain Boolean values related to the game to be passed around between scenes.
 
@@ -54,6 +54,7 @@ Experience requirements:
     - The picture of the player character's grandfather in `IdolRoom` rotates into upright position, and sets a Boolean variable that determines the presence of the evil spirit in `Outside`.
 - **Some objects are themselves animated**:
     - All interactable objects have a shine effect that plays periodically to bring the player's attention to them.
+    - The arrows that move the player between scenes have a bouncing animation.
     - All collectibles move upward before disappearing to signify their collection.
         - In case of the umbrella and raincoat in `Bedroom`, they also move downward and reappear when they are replaced.
     - The idol in `IdolRoom` shakes when clicked.

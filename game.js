@@ -299,7 +299,7 @@ class Intro extends Phaser.Scene {
             .setAlign('center')
             .setOrigin(0.5);
         
-        this.add.text(960, 270, "This game requires a mouse for the best experience.\n\nMild horror elements may be present in this game.")
+        this.add.text(960, 270, "A mouse is recommended for the best experience.\n\nMild horror elements may be present in this game.")
             .setFontFamily('Serif')
             .setFontSize(60)
             .setAlign('center')

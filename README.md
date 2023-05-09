@@ -25,10 +25,10 @@ Code requirements:
 
 Experience requirements:
 - **4+ locations in the game world**:
-    - MainHall
-    - Bedroom
-    - IdolRoom
-    - Outside
+    - `MainHall`
+    - `Bedroom`
+    - `IdolRoom`
+    - `Outside`
 - **2+ interactive objects in most scenes**:
     - `Exposition`: Skip button to bring the player straight to `MainHall`.
     - All Adventure scenes (except `Outside`): 1-2 arrows that allow the player to move from one scene to another.
